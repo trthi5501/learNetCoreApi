@@ -1,0 +1,25 @@
+<p>Event keyup</p>
+<input placeholder="Name student" [(ngModel)]="name" #textName>
+<p>Your name: {{name}}</p>
+<code>{{textName.value|json}}</code>
+
+<p>----------------------------------------</p>
+<p>Show list student</p>
+
+<table id="table" border="1">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Phone</td>
+        <td>Gender</td>
+        <td>Address</td>
+    </tr>
+    <tr *ngFor="let emp of values">  
+        <td>{{ emp.sid}}</td>  
+        <td>{{ emp.sName }}</td>  
+        <td>{{ emp.sPhone }}</td>  
+        <td>{{ emp.sGender }}</td>  
+        <td>{{ emp.sAddress }}</td>  
+        
+    </tr>  
+</table>
