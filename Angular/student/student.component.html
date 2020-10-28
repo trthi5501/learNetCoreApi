@@ -23,3 +23,28 @@
         
     </tr>  
 </table>
+<p>-------Insert student----------</p>
+<form >
+    <div>
+        <label for="id">Student ID: </label>    
+        <input type="text" name="sid">
+    </div>
+    <div>
+        <label for="Name">Student Name: </label>
+        <input type="text" name="sName">
+    </div>
+    <div>
+        <label for="Phone">Student Phone: </label>
+        <input type="number" name="sPhone">
+    </div>
+    <div>
+        <label for="Gender">Student Gender: </label>
+        <input type="text" name="sGender">
+    </div>
+    <div>
+        <label for="Address">Student Address: </label>
+        <input type="text" name="sAddress">
+    </div>
+    <button (click)="onSubmit()" class="button" type="submit">Submit</button>
+
+</form>

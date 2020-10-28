@@ -29,8 +29,10 @@ namespace WebApplication1.Controllers
 
         // POST: api/Student
         [HttpPost]
-        public void Post([FromBody] string value)
+        public bool Post([FromBody] StuentModel std)
         {
+            var student = new StuentModel();
+            return student.insertStd(std);
         }
 
         // PUT: api/Student/5

@@ -31,13 +31,15 @@ namespace WebApplication1.Model
 
         public static List<StuentModel> StudentList = new List<StuentModel>();
 
+        Connection str = new Connection();
+
         public List<StuentModel> GetStuents()
         {
             var students = new List<StuentModel>();
             //string connect
-            string connectString = @"Server=DESKTOP-7I2D4KB\SQLEXPRESS;Database=TEST;Trusted_Connection=True;";
+
             // SqlConnection object initialization
-            SqlConnection sqlConnection = new SqlConnection(connectString);
+            SqlConnection sqlConnection = new SqlConnection(str.str);
             //sql Command  use stored produre
             SqlCommand sqlCommand = sqlConnection.CreateCommand();
 
@@ -51,7 +53,7 @@ namespace WebApplication1.Model
             while (sqlDataReader.Read())
             {
                 var student = new StuentModel();
-                for(int i = 0; i<sqlDataReader.FieldCount; i++)
+                for (int i = 0; i < sqlDataReader.FieldCount; i++)
                 {
                     //lấy tên và  giá trị
                     var colName = sqlDataReader.GetName(i);
@@ -71,6 +73,33 @@ namespace WebApplication1.Model
 
             return students;
 
+        }
+        public bool insertStd(StuentModel std){
+            var students = new List<StuentModel>();
+            //string connect
+
+            // SqlConnection object initialization
+            SqlConnection sqlConnection = new SqlConnection(str.str);
+            //sql Command  use stored produre
+            SqlCommand sqlCommand = sqlConnection.CreateCommand();
+
+            sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            sqlCommand.CommandText = "dbo.Proc_InsertStudent";
+            // gán tham số cho parameter
+            sqlCommand.Parameters.AddWithValue("@SID",std.SID);
+            sqlCommand.Parameters.AddWithValue("@SName", std.SName);
+            sqlCommand.Parameters.AddWithValue("@SPhone", std.SPhone);
+            sqlCommand.Parameters.AddWithValue("@SGender", std.SGender);
+            sqlCommand.Parameters.AddWithValue("@SAddress", std.SAddress);
+
+            //connect database
+            sqlConnection.Open();
+
+            var result = sqlCommand.ExecuteNonQuery();
+
+            //close Connection
+            sqlConnection.Close();
+            return true;
         }
 
     }
