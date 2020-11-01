@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Text.Json.Serialization;
 
 namespace WebApplication1.Model
 {
@@ -28,7 +29,6 @@ namespace WebApplication1.Model
         /// Student Address
         /// </summary>
         public string SAddress { get; set; }
-        public string Token { get; set; }
 
         
     }

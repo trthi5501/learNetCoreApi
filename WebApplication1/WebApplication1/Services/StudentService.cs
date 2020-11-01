@@ -26,7 +26,7 @@ namespace WebApplication1.Services
             _appSettings = appSettings.Value;
         }
 
-        public Student Authenticate(string sid, string password)
+        public string Authenticate(string sid)
         {
             students = model.GetStudent();
 
@@ -34,8 +34,9 @@ namespace WebApplication1.Services
 
             // return null if user not found
             if (student == null)
+            {
                 return null;
-
+            }
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -43,17 +44,17 @@ namespace WebApplication1.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, student.SID.ToString())
+                    new Claim(ClaimTypes.NameIdentifier, student.SID),
+                    new Claim(ClaimTypes.Name, student.SName),
+                    new Claim(ClaimTypes.Role, student.SPhone)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            student.Token = tokenHandler.WriteToken(token);
+            string Token = tokenHandler.WriteToken(token);
 
-           
-
-            return student;
+            return Token;
         }
 
         public List<Student> GetAll()

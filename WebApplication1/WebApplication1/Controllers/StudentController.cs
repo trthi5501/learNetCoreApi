@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Interface;
@@ -10,17 +11,18 @@ using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
+   
     [Route("api/[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
-        private IStudentInterface _studentService;
+        private readonly IStudentInterface _studentService;
 
         public StudentController(IStudentInterface studentservice)
         {
             _studentService = studentservice;
         }
-
+        
         // GET: api/Student
         [HttpGet]
         public List<Student> Get()
@@ -30,18 +32,24 @@ namespace WebApplication1.Controllers
         }
 
         // GET: api/Student/5
+        [Authorize(Policy = "ApiUser")]
         [HttpGet("{id}", Name = "Get")]
         public List<Student> Get(string id)
         {
             var student = _studentService.GetSID(id);
+
             return student;
         }
 
         // POST: api/Student
+        
         [HttpPost]
-        public bool Post([FromBody] Student std)
+        public IActionResult Post([FromBody] Student std)
         {
-            return true;
+            var token = _studentService.Authenticate(std.SID);
+            if (token == null)
+                return Unauthorized();
+            return Ok(token);
         }
 
         // PUT: api/Student/5
