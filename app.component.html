@@ -1,0 +1,17 @@
+<!-- <div *ngFor = "let json of json">
+  <label for="">{{json.title}}</label>
+  <br>
+  <input type="checkbox" *ngFor = "let choices of json.choices"/>
+</div> -->
+<form [formGroup]="hobbiesForm">
+  <!--array is the inner FormArray--->
+  <div *ngFor="let array of hobbiesForm.controls; let i=index">
+    <b>{{hobbies[i].title}}:</b>
+    <!--control is the inner control of the array-->
+    <div *ngFor="let control of array.controls; let j=index">
+      <input  type="checkbox" [formControl]="control">
+      <label>{{hobbies[i].choices[j].label}}</label>
+      </div>
+  </div>
+  <button>submit</button>
+</form>
